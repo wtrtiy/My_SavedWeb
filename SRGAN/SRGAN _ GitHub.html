@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/ -->
+<html class="theme-next pisces use-motion windows desktop landscape" lang="zh-Hans"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" src="./SRGAN _ GitHub_files/image_view.js.下载"></script><script type="text/javascript" src="./SRGAN _ GitHub_files/image_api.js.下载"></script><script type="text/javascript" src="./SRGAN _ GitHub_files/slide_view.js.下载"></script><script type="text/javascript" src="./SRGAN _ GitHub_files/slide_api.js.下载"></script><meta name="generator" content="Hexo 3.8.0">
+  
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="./SRGAN _ GitHub_files/pace.min.js.下载"></script>
+  <link href="./SRGAN _ GitHub_files/pace-theme-fill-left.min.css" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="./SRGAN _ GitHub_files/jquery.fancybox.css" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="./SRGAN _ GitHub_files/css" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="./SRGAN _ GitHub_files/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<link href="./SRGAN _ GitHub_files/main.css" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="https://ustccoder.github.io/images/github_logo.jpeg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="https://ustccoder.github.io/images/github_logo.jpeg?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="https://ustccoder.github.io/images/github_logo.jpeg?v=5.1.4">
+
+
+  <link rel="mask-icon" href="https://ustccoder.github.io/images/github_logo.jpeg?v=5.1.4" color="#222">
+
+
+  <link rel="manifest" href="https://ustccoder.github.io/images/github_logo.jpeg">
+
+
+  <meta name="msapplication-config" content="/images/github_logo.jpeg">
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="https://ustccoder.github.io/atom.xml" title="GitHub" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="SRGAN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SRGAN">
+<meta property="og:url" content="https://USTCcoder.github.io/2020/06/09/generative_adversarial SRGAN/index.html">
+<meta property="og:site_name" content="GitHub">
+<meta property="og:description" content="SRGAN">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://ustccoder.github.io/images/Generative_adversarial/srgan.png">
+<meta property="og:image" content="https://ustccoder.github.io/images/Generative_adversarial/SRGAN-generator.png">
+<meta property="og:image" content="https://ustccoder.github.io/images/Generative_adversarial/SRGAN-discriminator.png">
+<meta property="og:image" content="https://ustccoder.github.io/images/Generative_adversarial/srgan_R.png">
+<meta property="og:image" content="https://ustccoder.github.io/images/Generative_adversarial/srgan_T.png">
+<meta property="og:updated_time" content="2020-07-19T06:17:32.553Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SRGAN">
+<meta name="twitter:description" content="SRGAN">
+<meta name="twitter:image" content="https://ustccoder.github.io/images/Generative_adversarial/srgan.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":true,"transition":{"post_block":"perspectiveLeftIn","post_header":"fadeIn","post_body":"fadeIn","coll_header":"fadeIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/">
+
+
+
+
+
+  <title>SRGAN | GitHub</title>
+  
+
+
+
+
+
+
+
+
+<script src="./SRGAN _ GitHub_files/share.js.下载"></script><style type="text/css">.v[data-class=v]{font-size:16px;text-align:left}.v[data-class=v] *{-webkit-box-sizing:border-box;box-sizing:border-box;line-height:1.75}.v[data-class=v] .status-bar,.v[data-class=v] .veditor,.v[data-class=v] .vinput,.v[data-class=v] p,.v[data-class=v] pre code{color:#555}.v[data-class=v] .vsys,.v[data-class=v] .vtime{color:#b3b3b3}.v[data-class=v] .text-right{text-align:right}.v[data-class=v] .text-center{text-align:center}.v[data-class=v] img{max-width:100%;border:none}.v[data-class=v] hr{margin:.825em 0;border-color:#f6f6f6;border-style:dashed}.v[data-class=v].hide-avatar .vimg{display:none}.v[data-class=v] a{position:relative;cursor:pointer;color:#1abc9c;text-decoration:none;display:inline-block}.v[data-class=v] a:hover{color:#d7191a}.v[data-class=v] code,.v[data-class=v] pre{background-color:#f8f8f8;padding:.2em .4em;border-radius:3px;font-size:85%;margin:0}.v[data-class=v] pre{padding:10px;overflow:auto;line-height:1.45}.v[data-class=v] pre code{padding:0;background:transparent;white-space:pre-wrap;word-break:keep-all}.v[data-class=v] blockquote{color:#666;margin:.5em 0;padding:0 0 0 1em;border-left:8px solid hsla(0,0%,93%,.5)}.v[data-class=v] .vinput{border:none;resize:none;outline:none;padding:10px 5px;max-width:100%;font-size:.775em}.v[data-class=v] input[type=checkbox],.v[data-class=v] input[type=radio]{display:inline-block;vertical-align:middle;margin-top:-2px}.v[data-class=v] .vicon{cursor:pointer;display:inline-block;overflow:hidden;fill:#555;vertical-align:middle}.v[data-class=v] .vicon+.vicon{margin-left:10px}.v[data-class=v] .vicon.actived{fill:#66b1ff}.v[data-class=v] .vrow{font-size:0;padding:10px 0}.v[data-class=v] .vrow .vcol{display:inline-block;vertical-align:middle;font-size:14px}.v[data-class=v] .vrow .vcol.vcol-20{width:20%}.v[data-class=v] .vrow .vcol.vcol-30{width:30%}.v[data-class=v] .vrow .vcol.vcol-40{width:40%}.v[data-class=v] .vrow .vcol.vcol-50{width:50%}.v[data-class=v] .vrow .vcol.vcol-60{width:60%}.v[data-class=v] .vrow .vcol.vcol-70{width:70%}.v[data-class=v] .vrow .vcol.vcol-80{width:80%}.v[data-class=v] .vrow .vcol.vctrl{font-size:12px}.v[data-class=v] .emoji,.v[data-class=v] .vemoji{max-width:25px;vertical-align:middle;margin:0 1px;display:inline-block}.v[data-class=v] .vwrap{border:1px solid #f0f0f0;border-radius:4px;margin-bottom:10px;overflow:hidden;position:relative;padding:10px}.v[data-class=v] .vwrap input{background:transparent}.v[data-class=v] .vwrap .vedit{position:relative;padding-top:10px}.v[data-class=v] .vwrap .cancel-reply-btn{position:absolute;right:5px;top:5px;cursor:pointer}.v[data-class=v] .vwrap .vemojis{display:none;font-size:18px;max-height:145px;overflow:auto;padding-bottom:10px;-webkit-box-shadow:0 0 1px #f0f0f0;box-shadow:0 0 1px #f0f0f0}.v[data-class=v] .vwrap .vemojis i{font-style:normal;padding-top:7px;width:36px;cursor:pointer;text-align:center;display:inline-block;vertical-align:middle}.v[data-class=v] .vwrap .vpreview{padding:7px;-webkit-box-shadow:0 0 1px #f0f0f0;box-shadow:0 0 1px #f0f0f0}.v[data-class=v] .vwrap .vheader .vinput{width:33.33%;border-bottom:1px dashed #dedede}.v[data-class=v] .vwrap .vheader.item2 .vinput{width:50%}.v[data-class=v] .vwrap .vheader.item1 .vinput{width:100%}.v[data-class=v] .vwrap .vheader .vinput:focus{border-bottom-color:#eb5055}@media screen and (max-width:520px){.v[data-class=v] .vwrap .vheader.item2 .vinput,.v[data-class=v] .vwrap .vheader .vinput{width:100%}}.v[data-class=v] .vpower{color:#999;font-size:.75em;padding:.5em 0}.v[data-class=v] .vpower a{font-size:.75em}.v[data-class=v] .vcount{padding:5px;font-weight:600;font-size:1.25em}.v[data-class=v] ol,.v[data-class=v] ul{padding:0;margin-left:1.25em}.v[data-class=v] .txt-center{text-align:center}.v[data-class=v] .txt-right{text-align:right}.v[data-class=v] .pd5{padding:5px}.v[data-class=v] .pd10{padding:10px}.v[data-class=v] .veditor{width:100%;min-height:8.75em;font-size:.875em;background:transparent;resize:vertical;-webkit-transition:all .25s ease;transition:all .25s ease}.v[data-class=v] .vbtn{-webkit-transition-duration:.4s;transition-duration:.4s;text-align:center;color:#555;border:1px solid #ededed;border-radius:.3em;display:inline-block;background:transparent;margin-bottom:0;font-weight:400;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;white-space:nowrap;padding:.5em 1.25em;font-size:.875em;line-height:1.42857143;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;outline:none}.v[data-class=v] .vbtn+.vbtn{margin-left:1.25em}.v[data-class=v] .vbtn:active,.v[data-class=v] .vbtn:hover{color:#3090e4;border-color:#3090e4}.v[data-class=v] .vbtn:disabled{border-color:#e1e1e1;color:#e1e1e1;background-color:#fdfafa;cursor:not-allowed}.v[data-class=v] .vempty{padding:1.25em;text-align:center;color:#555;overflow:auto}.v[data-class=v] .vsys{display:inline-block;padding:.2em .5em;font-size:.75em;border-radius:.2em;margin-right:.3em}@media screen and (max-width:520px){.v[data-class=v] .vsys{display:none}}.v[data-class=v] .vcards{width:100%}.v[data-class=v] .vcards .vcard{padding-top:1.25em;position:relative;display:block}.v[data-class=v] .vcards .vcard:after{content:"";clear:both;display:block}.v[data-class=v] .vcards .vcard .vimg{width:3.125em;height:3.125em;float:left;border-radius:50%;margin-right:.7525em;border:1px solid #f5f5f5;padding:.125em}@media screen and (max-width:720px){.v[data-class=v] .vcards .vcard .vimg{width:2.5em;height:2.5em}}.v[data-class=v] .vcards .vcard .vhead{line-height:1.5;margin-top:0}.v[data-class=v] .vcards .vcard .vhead .vnick{position:relative;font-size:.875em;font-weight:500;margin-right:.875em;cursor:pointer;text-decoration:none;display:inline-block}.v[data-class=v] .vcards .vcard .vhead .vnick:hover{color:#d7191a}.v[data-class=v] .vcards .vcard .vh{overflow:hidden;padding-bottom:.5em;border-bottom:1px dashed #f5f5f5}.v[data-class=v] .vcards .vcard .vh .vtime{font-size:.75em;margin-right:.875em}.v[data-class=v] .vcards .vcard .vh .vmeta{line-height:1;position:relative}.v[data-class=v] .vcards .vcard .vh .vmeta .vat{font-size:.8125em;color:#ef2f11;cursor:pointer;float:right}.v[data-class=v] .vcards .vcard:last-child .vh{border-bottom:none}.v[data-class=v] .vcards .vcard .vcontent{word-wrap:break-word;word-break:break-all;font-size:.875em;line-height:2;position:relative;margin-bottom:.75em;padding-top:.625em}.v[data-class=v] .vcards .vcard .vcontent.expand{cursor:pointer;max-height:8em;overflow:hidden}.v[data-class=v] .vcards .vcard .vcontent.expand:before{display:block;content:"";position:absolute;width:100%;left:0;top:0;bottom:3.15em;background:-webkit-gradient(linear,left top,left bottom,from(hsla(0,0%,100%,0)),to(hsla(0,0%,100%,.9)));background:linear-gradient(180deg,hsla(0,0%,100%,0),hsla(0,0%,100%,.9));z-index:999}.v[data-class=v] .vcards .vcard .vcontent.expand:after{display:block;content:attr(data-expand);text-align:center;color:#828586;position:absolute;width:100%;height:3.15em;line-height:3.15em;left:0;bottom:0;z-index:999;background:hsla(0,0%,100%,.9)}.v[data-class=v] .vcards .vcard .vquote{padding-left:1em;border-left:1px dashed hsla(0,0%,93%,.5)}.v[data-class=v] .vcards .vcard .vquote .vimg{width:2.225em;height:2.225em}.v[data-class=v] .vpage .vmore{margin:1em 0}.v[data-class=v] .clear{content:"";display:block;clear:both}@-webkit-keyframes spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@-webkit-keyframes pulse{50%{background:#dcdcdc}}@keyframes pulse{50%{background:#dcdcdc}}.v[data-class=v] .vspinner{width:22px;height:22px;display:inline-block;border:6px double #a0a0a0;border-top-color:transparent;border-bottom-color:transparent;border-radius:50%;-webkit-animation:spin 1s infinite linear;animation:spin 1s infinite linear;position:relative;vertical-align:middle;margin:0 5px}.dark .v[data-class=v] .status-bar,.dark .v[data-class=v] .veditor,.dark .v[data-class=v] .vinput,.dark .v[data-class=v] p,.dark .v[data-class=v] pre code,.night .v[data-class=v] .status-bar,.night .v[data-class=v] .veditor,.night .v[data-class=v] .vinput,.night .v[data-class=v] p,.night .v[data-class=v] pre code,.theme__dark .v[data-class=v] .status-bar,.theme__dark .v[data-class=v] .veditor,.theme__dark .v[data-class=v] .vinput,.theme__dark .v[data-class=v] p,.theme__dark .v[data-class=v] pre code,[data-theme=dark] .v[data-class=v] .status-bar,[data-theme=dark] .v[data-class=v] .veditor,[data-theme=dark] .v[data-class=v] .vinput,[data-theme=dark] .v[data-class=v] p,[data-theme=dark] .v[data-class=v] pre code{color:#b2b2b5}.dark .v[data-class=v] .vsys,.dark .v[data-class=v] .vtime,.night .v[data-class=v] .vsys,.night .v[data-class=v] .vtime,.theme__dark .v[data-class=v] .vsys,.theme__dark .v[data-class=v] .vtime,[data-theme=dark] .v[data-class=v] .vsys,[data-theme=dark] .v[data-class=v] .vtime{color:#929298}.dark .v[data-class=v] code,.dark .v[data-class=v] pre,.dark .v[data-class=v] pre code,.night .v[data-class=v] code,.night .v[data-class=v] pre,.night .v[data-class=v] pre code,.theme__dark .v[data-class=v] code,.theme__dark .v[data-class=v] pre,.theme__dark .v[data-class=v] pre code,[data-theme=dark] .v[data-class=v] code,[data-theme=dark] .v[data-class=v] pre,[data-theme=dark] .v[data-class=v] pre code{color:#929298;background-color:#151414}.dark .v[data-class=v] .vwrap,.night .v[data-class=v] .vwrap,.theme__dark .v[data-class=v] .vwrap,[data-theme=dark] .v[data-class=v] .vwrap{border-color:#b2b2b5}.dark .v[data-class=v] .vicon,.night .v[data-class=v] .vicon,.theme__dark .v[data-class=v] .vicon,[data-theme=dark] .v[data-class=v] .vicon{fill:#b2b2b5}.dark .v[data-class=v] .vicon.actived,.night .v[data-class=v] .vicon.actived,.theme__dark .v[data-class=v] .vicon.actived,[data-theme=dark] .v[data-class=v] .vicon.actived{fill:#66b1ff}.dark .v[data-class=v] .vbtn,.night .v[data-class=v] .vbtn,.theme__dark .v[data-class=v] .vbtn,[data-theme=dark] .v[data-class=v] .vbtn{color:#b2b2b5;border-color:#b2b2b5}.dark .v[data-class=v] .vbtn:hover,.night .v[data-class=v] .vbtn:hover,.theme__dark .v[data-class=v] .vbtn:hover,[data-theme=dark] .v[data-class=v] .vbtn:hover{color:#66b1ff;border-color:#66b1ff}.dark .v[data-class=v] a:hover,.night .v[data-class=v] a:hover,.theme__dark .v[data-class=v] a:hover,[data-theme=dark] .v[data-class=v] a:hover{color:#d7191a}.dark .v[data-class=v] .vcards .vcard .vcontent.expand:before,.night .v[data-class=v] .vcards .vcard .vcontent.expand:before,.theme__dark .v[data-class=v] .vcards .vcard .vcontent.expand:before,[data-theme=dark] .v[data-class=v] .vcards .vcard .vcontent.expand:before{background:-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.3)),to(rgba(0,0,0,.7)));background:linear-gradient(180deg,rgba(0,0,0,.3),rgba(0,0,0,.7))}.dark .v[data-class=v] .vcards .vcard .vcontent.expand:after,.night .v[data-class=v] .vcards .vcard .vcontent.expand:after,.theme__dark .v[data-class=v] .vcards .vcard .vcontent.expand:after,[data-theme=dark] .v[data-class=v] .vcards .vcard .vcontent.expand:after{background:rgba(0,0,0,.7)}@media (prefers-color-scheme:dark){.v[data-class=v] .status-bar,.v[data-class=v] .veditor,.v[data-class=v] .vinput,.v[data-class=v] p,.v[data-class=v] pre code{color:#b2b2b5}.v[data-class=v] .vsys,.v[data-class=v] .vtime{color:#929298}.v[data-class=v] code,.v[data-class=v] pre,.v[data-class=v] pre code{color:#929298;background-color:#151414}.v[data-class=v] .vwrap{border-color:#b2b2b5}.v[data-class=v] .vicon{fill:#b2b2b5}.v[data-class=v] .vicon.actived{fill:#66b1ff}.v[data-class=v] .vbtn{color:#b2b2b5;border-color:#b2b2b5}.v[data-class=v] .vbtn:hover{color:#66b1ff;border-color:#66b1ff}.v[data-class=v] a:hover{color:#d7191a}.v[data-class=v] .vcards .vcard .vcontent.expand:before{background:-webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.3)),to(rgba(0,0,0,.7)));background:linear-gradient(180deg,rgba(0,0,0,.3),rgba(0,0,0,.7))}.v[data-class=v] .vcards .vcard .vcontent.expand:after{background:rgba(0,0,0,.7)}}</style><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><script type="text/javascript" charset="utf-8" async="" src="./SRGAN _ GitHub_files/L2Dwidget.0.min.js.下载"></script><style type="text/css">.fancybox-margin{margin-right:5px;}</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style>
+<style>
+  .live2d-widget-dialog-container {
+    width: 300px;
+    height: 120px;
+    position: absolute;
+    bottom: 65%;
+    right: 0px;
+    transform-origin: right;
+    padding: 12px;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+  }
+  .live2d-widget-dialog {
+    width: 100%;
+    height: 100%;
+    color: #917159;
+    font-size: 16px;
+    padding: 12px;
+    border: 2px solid rgb(236, 203, 180);
+    background: rgb(252, 248, 244);
+    box-sizing: border-box;
+    border-radius: 10px;
+    transform: rotate(-2deg);
+    opacity: 0;
+    transition: 200ms opacity;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    animation: live2d-widget-dialog-tingle 4s ease-in-out 0s infinite alternate;
+  }
+  @keyframes live2d-widget-dialog-tingle {
+    0% { transform: translate(-1px, 1.5px) rotate(-2deg); }
+    100% { transform: translate(1px, -1.5px) rotate(2deg); }
+  }
+</style>
+<link rel="stylesheet" href="./SRGAN _ GitHub_files/slide_share.css"><link rel="stylesheet" href="./SRGAN _ GitHub_files/imgshare.css"><link rel="stylesheet" href="./SRGAN _ GitHub_files/share_style0_16.css"></head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans" class="    pace-done"><div class="pace  pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+  <div class="pace-progress-inner"></div>
+</div>
+<div class="pace-activity"></div></div><div id="MathJax_Message" style="display: none;"></div>
+<!--
+<link rel="stylesheet" href="/dist/APlayer.min.css">
+<div id="aplayer"></div>
+<script type="text/javascript" src="/dist/APlayer.min.js"></script>
+<script type="text/javascript" src="/dist/music.js"></script>
+-->
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/USTCcoder" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="https://ustccoder.github.io/" class="brand" rel="start" style="opacity: 1;">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title" style="opacity: 1; top: 0px;">GitHub</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle" style="opacity: 1; top: 0px;"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home" style="opacity: 1; transform: translateY(0px);">
+          <a href="https://ustccoder.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            我的主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives" style="opacity: 1; transform: translateY(0px);">
+          <a href="https://ustccoder.github.io/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            日志总览
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories" style="opacity: 1; transform: translateY(0px);">
+          <a href="https://ustccoder.github.io/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分门别类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about" style="opacity: 1; transform: translateY(0px);">
+          <a href="https://ustccoder.github.io/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于博主
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search" style="opacity: 1; transform: translateY(0px);">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block" style="opacity: 1; display: block; transform-origin: 50% 50%;">
+    <link itemprop="mainEntityOfPage" href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/">
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="USTCcoder">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/github.jpeg">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GitHub">
+    </span>
+
+    
+      <header class="post-header" style="opacity: 1; display: block;">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SRGAN</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-09T09:48:17+08:00">
+                2020-06-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="https://ustccoder.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="https://ustccoder.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E7%94%9F%E6%88%90%E5%BC%8F%E5%AF%B9%E6%8A%97%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index">
+                    <span itemprop="name">生成式对抗网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/06/09/generative_adversarial SRGAN/" itemprop="commentCount">0</span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">本文总阅读数<i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv">3301</span>次
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计:</span>
+                
+                <span title="字数统计">
+                  2.2k
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  <table><tbody><tr><td bgcolor="grey"><font size="5" face="STXihei" color="white"><center>SRGAN</center></font></td></tr></tbody></table>
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody" style="opacity: 1; display: block;">
+
+      
+      
+
+      
+        <p><strong><font size="5" color="gray"></font></strong></p><center><strong><font size="5" color="gray">SRGAN</font></strong></center><p></p>
+<h1 id="背景介绍"><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D" class="headerlink" title="背景介绍"></a><font size="5" color="red">背景介绍</font></h1><p>  <strong>SRGAN(Supre Resolution Generative Adversarial Networks, 超分辨率生成式对抗网络)</strong>:于<strong>2016年</strong>发表在<strong>CVPR</strong>上，图像处理的一个重要任务就是超分辨率，图像的大小是由分辨率决定的，常见的分辨率有128x128，256x256，512x512，1024x1024，<strong>像素越大，说明像素点越多，图像的表达能力更强，细节更加明显</strong>，看起来也会更加舒适。<br><a id="more"></a></p>
+<p><a href="./SRGAN _ GitHub_files/srgan.png" class="fancybox fancybox.image" rel="group"><img src="./SRGAN _ GitHub_files/srgan.png" alt="srgan" data-bd-imgshare-binded="1"></a></p>
+<h1 id="分辨率提升的方法"><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#%E5%88%86%E8%BE%A8%E7%8E%87%E6%8F%90%E5%8D%87%E7%9A%84%E6%96%B9%E6%B3%95" class="headerlink" title="分辨率提升的方法"></a><font size="5" color="red">分辨率提升的方法</font></h1><p>在GAN问世以前，人们就做了许多关于分辨率提升的方法，其中<strong>最简单的也是最常用的方法就是插值法，在opencv库中有imresize函数</strong>，其中<strong>可以指定目标图像的尺寸，而且可以选择插值方法，一般选择双线性插值</strong>，但是插值方法有一个<strong>最致命的问题—模糊</strong>，插值的原理就是根据周围的点进行估计，因此插值的结果会导致某个区域的值都i非常接近，会导致照片模糊。</p>
+<p>随着GAN的发展，人们发现GAN既然能够生成图像，能不能生成更高分辨率的图像，答案是肯定的，今天给小伙伴们介绍SRGAN的原理。<br>SRGAN<strong>引入了三个网络，一个是生成器，一个是判别器，还有一个是特征提取器(VGG19)</strong><br>生成器的<strong>输入是低分辨率图像，输出是高分辨率图像，目的是根据输入的低分辨率图像生成高分辨率图像</strong>。<br>判别器的<strong>输入是高分辨率图像，输出是对输入图像的分类，目的是判断输入的图像是生成的高分辨率图像还是原始的高分辨率图像</strong>。<br>特征提取器的<strong>输入是高分辨率图像，输出是对高分辨率图像的特征提取，目的是使生成的图像和原始的高分辨率图像具有相同的特征</strong>。</p>
+<h1 id="SRGAN的特点"><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#SRGAN%E7%9A%84%E7%89%B9%E7%82%B9" class="headerlink" title="SRGAN的特点"></a><font size="5" color="red">SRGAN的特点</font></h1><p>  <font size="3"><strong>生成器使用ResNet结构+上采样对图像进行分辨率提升</strong>。</font><br>  <font size="3"><strong>引入特征提取网络VGG19，对高分辨率特征进行提取</strong>。</font><br>  <font size="3"><strong>特征提取损失函数采用均方误差，判别器损失函数采用二分类交叉熵</strong>。</font><br>  <font size="3"><strong>对生成器损失函数的权重进行调节，使网络更多关注于生成的图像质量</strong>。</font></p>
+<h1 id="SRGAN图像分析"><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#SRGAN%E5%9B%BE%E5%83%8F%E5%88%86%E6%9E%90" class="headerlink" title="SRGAN图像分析"></a><font size="5" color="red">SRGAN图像分析</font></h1><p><a href="./SRGAN _ GitHub_files/SRGAN-generator.png" class="fancybox fancybox.image" rel="group"><img src="./SRGAN _ GitHub_files/SRGAN-generator.png" alt="generator" data-bd-imgshare-binded="1"></a><br><a href="./SRGAN _ GitHub_files/SRGAN-discriminator.png" class="fancybox fancybox.image" rel="group"><img src="./SRGAN _ GitHub_files/SRGAN-discriminator.png" alt="discriminator" data-bd-imgshare-binded="1"></a></p>
+<h1 id="TensorFlow2-0实现"><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#TensorFlow2-0%E5%AE%9E%E7%8E%B0" class="headerlink" title="TensorFlow2.0实现"></a><font size="4">TensorFlow2.0实现</font></h1><figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">import glob</span><br><span class="line">import numpy as np</span><br><span class="line">import cv2 as cv</span><br><span class="line">from functools import reduce</span><br><span class="line">import tensorflow as tf</span><br><span class="line">import tensorflow.keras as keras</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def compose(*funcs):</span><br><span class="line">    if funcs:</span><br><span class="line">        return reduce(lambda f, g: lambda *a, **kw: g(f(*a, **kw)), funcs)</span><br><span class="line">    else:</span><br><span class="line">        raise ValueError('Composition of empty sequence not supported.')</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def resblock(x, filters, name):</span><br><span class="line">    shortcut = x</span><br><span class="line">    x = compose(keras.layers.Conv2D(filters, (3, 3), (1, 1), 'same', name='{}_conv1'.format(name)),</span><br><span class="line">                keras.layers.BatchNormalization(momentum=0.8, name='{}_bn1'.format(name)),</span><br><span class="line">                keras.layers.ReLU(name='{}_relu1'.format(name)),</span><br><span class="line">                keras.layers.Conv2D(filters, (3, 3), (1, 1), 'same', name='{}_conv2'.format(name)),</span><br><span class="line">                keras.layers.BatchNormalization(momentum=0.8, name='{}_bn2'.format(name)))(x)</span><br><span class="line">    x = keras.layers.Add(name='{}_add'.format(name))([x, shortcut])</span><br><span class="line"></span><br><span class="line">    return x</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Conv_LeakyRelu_Bn(keras.layers.Layer):</span><br><span class="line">    def __init__(self, filters, kernel_size, strides, padding, name):</span><br><span class="line">        super(Conv_LeakyRelu_Bn, self).__init__()</span><br><span class="line">        self._name = name</span><br><span class="line">        self.block = keras.Sequential([keras.layers.Conv2D(filters, kernel_size, strides, padding),</span><br><span class="line">                                       keras.layers.LeakyReLU(0.2)])</span><br><span class="line">        if name.find('bn') != -1:</span><br><span class="line">            self.block.add(keras.layers.BatchNormalization(momentum=0.8))</span><br><span class="line"></span><br><span class="line">    def call(self, inputs, **kwargs):</span><br><span class="line"></span><br><span class="line">        return self.block(inputs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def vgg(input_shape):</span><br><span class="line">    input_tensor = keras.layers.Input(input_shape, name='input')</span><br><span class="line">    x = input_tensor</span><br><span class="line"></span><br><span class="line">    vgg = keras.applications.VGG19()</span><br><span class="line">    vgg.outputs = [vgg.layers[9].output]</span><br><span class="line">    x = vgg(x)</span><br><span class="line"></span><br><span class="line">    model = keras.Model(input_tensor, x, name='VGG19')</span><br><span class="line"></span><br><span class="line">    return model</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def generator(input_shape):</span><br><span class="line">    input_tensor = keras.layers.Input(input_shape, name='input')</span><br><span class="line">    x = input_tensor</span><br><span class="line"></span><br><span class="line">    x = keras.layers.Conv2D(64, (9, 9), (1, 1), 'same', name='conv1')(x)</span><br><span class="line">    shortcut = x</span><br><span class="line"></span><br><span class="line">    for i in range(16):</span><br><span class="line">        x = resblock(x, 64, name='resblock{}'.format(i + 1))</span><br><span class="line"></span><br><span class="line">    x = compose(keras.layers.Conv2D(64, (3, 3), (1, 1), 'same', name='conv2'),</span><br><span class="line">                keras.layers.BatchNormalization(momentum=0.8, name='bn2'))(x)</span><br><span class="line"></span><br><span class="line">    x = keras.layers.Add(name='add2')([x, shortcut])</span><br><span class="line"></span><br><span class="line">    x = compose(keras.layers.UpSampling2D((2, 2), name='upsampling1'),</span><br><span class="line">                keras.layers.Conv2D(256, (3, 3), (1, 1), 'same', activation='relu', name='conv3_relu'),</span><br><span class="line">                keras.layers.UpSampling2D((2, 2), name='upsampling2'),</span><br><span class="line">                keras.layers.Conv2D(256, (3, 3), (1, 1), 'same', activation='relu', name='conv4_relu'),</span><br><span class="line">                keras.layers.Conv2D(3, (9, 9), (1, 1), 'same', activation='tanh', name='conv5_tanh'))(x)</span><br><span class="line"></span><br><span class="line">    model = keras.Model(input_tensor, x, name='SRGAN-Generator')</span><br><span class="line"></span><br><span class="line">    return model</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def discriminator(input_shape):</span><br><span class="line">    input_tensor = keras.layers.Input(input_shape, name='input')</span><br><span class="line">    x = input_tensor</span><br><span class="line"></span><br><span class="line">    x = compose(Conv_LeakyRelu_Bn(64, (3, 3), (1, 1), 'same', name='conv_leakyrelu1'),</span><br><span class="line">                Conv_LeakyRelu_Bn(64, (3, 3), (2, 2), 'same', name='conv_leakyrelu_bn2'),</span><br><span class="line">                Conv_LeakyRelu_Bn(128, (3, 3), (1, 1), 'same', name='conv_leakyrelu_bn3'),</span><br><span class="line">                Conv_LeakyRelu_Bn(128, (3, 3), (2, 2), 'same', name='conv_leakyrelu_bn4'),</span><br><span class="line">                Conv_LeakyRelu_Bn(256, (3, 3), (1, 1), 'same', name='conv_leakyrelu_bn5'),</span><br><span class="line">                Conv_LeakyRelu_Bn(256, (3, 3), (2, 2), 'same', name='conv_leakyrelu_bn6'),</span><br><span class="line">                Conv_LeakyRelu_Bn(512, (3, 3), (1, 1), 'same', name='conv_leakyrelu_bn7'),</span><br><span class="line">                Conv_LeakyRelu_Bn(512, (3, 3), (2, 2), 'same', name='conv_leakyrelu_bn8'),</span><br><span class="line">                Conv_LeakyRelu_Bn(1024, (1, 1), (1, 1), 'same', name='conv_leakyrelu9'),</span><br><span class="line">                keras.layers.Conv2D(1, (1, 1), (1, 1), 'same', activation='sigmoid', name='conv_sigmoid'))(x)</span><br><span class="line"></span><br><span class="line">    model = keras.Model(input_tensor, x, name='SRGAN-Discriminator')</span><br><span class="line"></span><br><span class="line">    return model</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def srgan(input_shape, model_vgg, model_g, model_d):</span><br><span class="line">    input_tensor = keras.layers.Input(input_shape, name='input')</span><br><span class="line">    x = input_tensor</span><br><span class="line"></span><br><span class="line">    model_vgg.trainable = False</span><br><span class="line">    model_d.trainable = False</span><br><span class="line"></span><br><span class="line">    fake_image = model_g(x)</span><br><span class="line">    fake_feature = model_vgg(fake_image)</span><br><span class="line">    conf = model_d(fake_image)</span><br><span class="line"></span><br><span class="line">    model = keras.Model(input_tensor, [conf, fake_feature], name='SRGAN')</span><br><span class="line"></span><br><span class="line">    return model</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def read_data(data_path, high_resolution, low_resolution, batch_size):</span><br><span class="line">    filename = glob.glob(data_path)</span><br><span class="line">    choose_name = np.random.choice(filename, batch_size)</span><br><span class="line"></span><br><span class="line">    hr_image, lr_image = [], []</span><br><span class="line">    for name in choose_name:</span><br><span class="line">        image = cv.imread(name).astype(np.float32)</span><br><span class="line">        hr_image.append(cv.resize(image, high_resolution))</span><br><span class="line">        lr_image.append(cv.resize(image, low_resolution))</span><br><span class="line"></span><br><span class="line">    hr_image = np.array(hr_image) / 127.5 - 1</span><br><span class="line">    lr_image = np.array(lr_image) / 127.5 - 1</span><br><span class="line"></span><br><span class="line">    return hr_image, lr_image</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == '__main__':</span><br><span class="line">    batch_size = 2</span><br><span class="line">    epochs = 2000</span><br><span class="line">    tf.random.set_seed(22)</span><br><span class="line">    low_resolution = (56, 56)</span><br><span class="line">    high_resolution = (224, 224)</span><br><span class="line">    data_path = r'.\monet2photo\trainB\*.jpg'</span><br><span class="line">    save_path = r'.\srgan'</span><br><span class="line">    if not os.path.exists(save_path):</span><br><span class="line">        os.makedirs(save_path)</span><br><span class="line"></span><br><span class="line">    optimizer = keras.optimizers.Adam(0.0002, 0.5)</span><br><span class="line">    loss = keras.losses.BinaryCrossentropy()</span><br><span class="line"></span><br><span class="line">    real_dacc = keras.metrics.BinaryAccuracy()</span><br><span class="line">    fake_dacc = keras.metrics.BinaryAccuracy()</span><br><span class="line">    gacc = keras.metrics.BinaryAccuracy()</span><br><span class="line"></span><br><span class="line">    model_vgg = vgg(input_shape=(high_resolution[0], high_resolution[1], 3))</span><br><span class="line"></span><br><span class="line">    model_d = discriminator(input_shape=(high_resolution[0], high_resolution[1], 3))</span><br><span class="line">    model_d.compile(optimizer=optimizer, loss='binary_crossentropy')</span><br><span class="line"></span><br><span class="line">    model_g = generator(input_shape=(low_resolution[0], low_resolution[1], 3))</span><br><span class="line"></span><br><span class="line">    model_vgg.build(input_shape=(high_resolution[0], high_resolution[1], 3))</span><br><span class="line">    model_vgg.summary()</span><br><span class="line">    keras.utils.plot_model(model_vgg, 'SRGAN-vgg19.png', show_shapes=True, show_layer_names=True)</span><br><span class="line"></span><br><span class="line">    model_g.build(input_shape=(low_resolution[0], low_resolution[1], 3))</span><br><span class="line">    model_g.summary()</span><br><span class="line">    keras.utils.plot_model(model_g, 'SRGAN-generator.png', show_shapes=True, show_layer_names=True)</span><br><span class="line"></span><br><span class="line">    model_d.build(input_shape=(high_resolution[0], high_resolution[1], 3))</span><br><span class="line">    model_d.summary()</span><br><span class="line">    keras.utils.plot_model(model_d, 'SRGAN-discriminator.png', show_shapes=True, show_layer_names=True)</span><br><span class="line"></span><br><span class="line">    model = srgan(input_shape=(low_resolution[0], low_resolution[1], 3), model_vgg=model_vgg, model_g=model_g, model_d=model_d)</span><br><span class="line">    model.compile(optimizer=optimizer, loss=['binary_crossentropy', 'mse'], loss_weights=[1, 100])</span><br><span class="line"></span><br><span class="line">    model.build(input_shape=(low_resolution[0], low_resolution[1], 3))</span><br><span class="line">    model.summary()</span><br><span class="line">    keras.utils.plot_model(model, 'SRGAN.png', show_shapes=True, show_layer_names=True)</span><br><span class="line"></span><br><span class="line">    for epoch in range(epochs):</span><br><span class="line">        real_hr_image, real_lr_image = read_data(data_path, high_resolution, low_resolution, batch_size)</span><br><span class="line"></span><br><span class="line">        real_hr_feature = model_vgg(real_hr_image)</span><br><span class="line">        fake_hr_image = model_g(real_lr_image)</span><br><span class="line"></span><br><span class="line">        real_dacc(np.ones((batch_size, high_resolution[0] // 16, high_resolution[1] // 16, 1)), model_d(real_hr_image))</span><br><span class="line">        fake_dacc(np.zeros((batch_size, high_resolution[0] // 16, high_resolution[1] // 16, 1)), model_d(fake_hr_image))</span><br><span class="line">        gacc(np.ones((batch_size, high_resolution[0] // 16, high_resolution[1] // 16, 1)), model(real_lr_image)[0])</span><br><span class="line"></span><br><span class="line">        real_dloss = model_d.train_on_batch(real_hr_image, np.ones((batch_size, high_resolution[0] // 16, high_resolution[1] // 16, 1)))</span><br><span class="line">        fake_dloss = model_d.train_on_batch(fake_hr_image, np.zeros((batch_size, high_resolution[0] // 16, high_resolution[1] // 16, 1)))</span><br><span class="line">        gloss = model.train_on_batch(real_lr_image, [np.ones((batch_size, high_resolution[0] // 16, high_resolution[1] // 16, 1)), real_hr_feature])</span><br><span class="line"></span><br><span class="line">        if epoch % 20 == 0:</span><br><span class="line">            print('epoch = {}, real_dacc = {}, fake_dacc = {}, gacc = {}'.format(epoch, real_dacc.result(), fake_dacc.result(), gacc.result()))</span><br><span class="line">            real_dacc.reset_states()</span><br><span class="line">            fake_dacc.reset_states()</span><br><span class="line">            gacc.reset_states()</span><br><span class="line">            real_hr_image, real_lr_image = read_data(data_path, high_resolution, low_resolution, batch_size=1)</span><br><span class="line">            fake_hr_image = ((model_g(real_lr_image).numpy().squeeze() + 1) * 127.5).astype(np.uint8)</span><br><span class="line">            scale_hr_image = ((cv.resize(real_lr_image.squeeze(), high_resolution) + 1) * 127.5).astype(np.uint8)</span><br><span class="line">            cv.imwrite(save_path + '\\epoch{}.jpg'.format(epoch), np.concatenate([scale_hr_image, fake_hr_image], axis=1))</span><br></pre></td></tr></tbody></table></figure>
+<p><a href="./SRGAN _ GitHub_files/srgan_R.png" class="fancybox fancybox.image" rel="group"><img src="./SRGAN _ GitHub_files/srgan_R.png" alt="srgan" data-bd-imgshare-binded="1"></a></p>
+<h2 id="模型运行结果"><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#%E6%A8%A1%E5%9E%8B%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C" class="headerlink" title="模型运行结果"></a>模型运行结果</h2><p><a href="./SRGAN _ GitHub_files/srgan_T.png" class="fancybox fancybox.image" rel="group"><img src="./SRGAN _ GitHub_files/srgan_T.png" alt="srgan" data-bd-imgshare-binded="1"></a></p>
+<h2 id="小技巧"><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#%E5%B0%8F%E6%8A%80%E5%B7%A7" class="headerlink" title="小技巧"></a>小技巧</h2><ol>
+<li>图像输入可以先将其<strong>归一化到0-1之间或者-1-1之间</strong>，因为网络的参数一般都比较小，所以归一化后计算方便，收敛较快。</li>
+<li>注意其中的一些维度变换和<strong>numpy</strong>，<strong>tensorflow</strong>常用操作，否则在阅读代码时可能会产生一些困难。</li>
+<li>可以设置一些<strong>权重的保存方式</strong>，<strong>学习率的下降方式</strong>和<strong>早停方式</strong>。</li>
+<li><strong>SRGAN对于网络结构，优化器参数，网络层的一些超参数都是非常敏感的，效果不好不容易发现原因，这可能需要较多的工程实践经验</strong>。</li>
+<li><strong>先创建判别器，然后进行compile，这样判别器就固定了，然后创建生成器时，不要训练判别器，需要将判别器的trainable改成False，此时不会影响之前固定的判别器</strong>，这个可以<strong>通过模型的_collection_collected_trainable_weights属性查看</strong>，如果该属性为空，则模型不训练，否则模型可以训练，compile之后，该属性固定，无论后面如何修改trainable，只要不重新compile，都不影响训练。</li>
+<li>要注意<strong>使用VGG19特征提取网络权重时，因为VGG19的输入尺寸是224x224x3的，因此图像的尺寸要匹配，如果想生成更大尺寸的高分辨率图像，需要自己训练一个合适的特征提取网络权重</strong>。</li>
+<li>在SRGAN的测试图像中，为了说明模型的优越性，左边为低分辨率图像直接resize到高分辨率图像的结果，右边为SRGAN生成的高分辨率图像的结果。只是训练了2000代，每一代只有2个图像就可以看出SRGAN的效果。小伙伴们可以选择更大的数据集，更加快速的GPU，训练更长的时间，这两种算法之间的差距会更加明显。</li>
+</ol>
+<h1 id="SRGAN小结"><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#SRGAN%E5%B0%8F%E7%BB%93" class="headerlink" title="SRGAN小结"></a><font size="5" color="red">SRGAN小结</font></h1><p>  SRGAN是一种有效的超分辨率生成式对抗网络，从上图可以看出<strong>SRGAN模型的参数量只有7M</strong>，最近AI老图像复原引起了人们的注意，训练好SRGAN模型后可以运用在AI老图像复原，可以将原来拍摄的低分辨率的图像转化为清晰的高分辨率图像，是不是非常有趣呢？</p>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
+      
+    </div>
+    
+    
+    
+
+    <div>
+      
+        <div> 
+  
+    <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div> 
+   
+</div>
+
+
+      
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+        <div class="post-widgets">
+        
+          <div class="wp_rating">
+            <div id="wpac-rating"></div>
+          </div>
+        
+
+        
+
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="https://ustccoder.github.io/2020/06/08/program%20Leetcode990/" rel="next" title="等式方程的可满足性(Leetcode 990)">
+                <i class="fa fa-chevron-left"></i> 等式方程的可满足性(Leetcode 990)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="https://ustccoder.github.io/2020/06/10/program%20Leetcode126/" rel="prev" title="单词接龙 II(Leetcode 126)">
+                单词接龙 II(Leetcode 126) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "1",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      },
+      "slide": {
+        "bdImg": "5",
+        "bdPos": "left",
+        "bdTop": "100"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments v" id="comments" data-class="v" style="opacity: 1; display: block; transform-origin: 50% 50%;"><div class="vpanel"><div class="vwrap"><p class="cancel-reply text-right" style="display:none;" title="取消回复"><svg class="vicon cancel-reply-btn" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4220" width="22" height="22"><path d="M796.454 985H227.545c-50.183 0-97.481-19.662-133.183-55.363-35.7-35.701-55.362-83-55.362-133.183V227.545c0-50.183 19.662-97.481 55.363-133.183 35.701-35.7 83-55.362 133.182-55.362h568.909c50.183 0 97.481 19.662 133.183 55.363 35.701 35.702 55.363 83 55.363 133.183v568.909c0 50.183-19.662 97.481-55.363 133.183S846.637 985 796.454 985zM227.545 91C152.254 91 91 152.254 91 227.545v568.909C91 871.746 152.254 933 227.545 933h568.909C871.746 933 933 871.746 933 796.454V227.545C933 152.254 871.746 91 796.454 91H227.545z" p-id="4221"></path><path d="M568.569 512l170.267-170.267c15.556-15.556 15.556-41.012 0-56.569s-41.012-15.556-56.569 0L512 455.431 341.733 285.165c-15.556-15.556-41.012-15.556-56.569 0s-15.556 41.012 0 56.569L455.431 512 285.165 682.267c-15.556 15.556-15.556 41.012 0 56.569 15.556 15.556 41.012 15.556 56.569 0L512 568.569l170.267 170.267c15.556 15.556 41.012 15.556 56.569 0 15.556-15.556 15.556-41.012 0-56.569L568.569 512z" p-id="4222"></path></svg></p><div class="vheader item1"><input name="nick" placeholder="昵称" class="vnick vinput" type="text"></div><div class="vedit"><textarea id="veditor" class="veditor vinput" placeholder="给主人一点鼓励吧( ⊙ o ⊙ )"></textarea><div class="vrow"><div class="vcol vcol-60 status-bar"></div><div class="vcol vcol-40 vctrl text-right"><span title="表情" class="vicon vemoji-btn"><svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="16172" width="22" height="22"><path d="M512 1024a512 512 0 1 1 512-512 512 512 0 0 1-512 512zM512 56.888889a455.111111 455.111111 0 1 0 455.111111 455.111111 455.111111 455.111111 0 0 0-455.111111-455.111111zM312.888889 512A85.333333 85.333333 0 1 1 398.222222 426.666667 85.333333 85.333333 0 0 1 312.888889 512z" p-id="16173"></path><path d="M512 768A142.222222 142.222222 0 0 1 369.777778 625.777778a28.444444 28.444444 0 0 1 56.888889 0 85.333333 85.333333 0 0 0 170.666666 0 28.444444 28.444444 0 0 1 56.888889 0A142.222222 142.222222 0 0 1 512 768z" p-id="16174"></path><path d="M782.222222 391.964444l-113.777778 59.733334a29.013333 29.013333 0 0 1-38.684444-10.808889 28.444444 28.444444 0 0 1 10.24-38.684445l113.777778-56.888888a28.444444 28.444444 0 0 1 38.684444 10.24 28.444444 28.444444 0 0 1-10.24 36.408888z" p-id="16175"></path><path d="M640.568889 451.697778l113.777778 56.888889a27.875556 27.875556 0 0 0 38.684444-10.24 27.875556 27.875556 0 0 0-10.24-38.684445l-113.777778-56.888889a28.444444 28.444444 0 0 0-38.684444 10.808889 28.444444 28.444444 0 0 0 10.24 38.115556z" p-id="16176"></path></svg></span><span title="预览" class="vicon vpreview-btn"><svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="17688" width="22" height="22"><path d="M502.390154 935.384615a29.538462 29.538462 0 1 1 0 59.076923H141.430154C79.911385 994.461538 29.538462 946.254769 29.538462 886.153846V137.846154C29.538462 77.745231 79.950769 29.538462 141.390769 29.538462h741.218462c61.44 0 111.852308 48.206769 111.852307 108.307692v300.268308a29.538462 29.538462 0 1 1-59.076923 0V137.846154c0-26.899692-23.355077-49.230769-52.775384-49.230769H141.390769c-29.420308 0-52.775385 22.331077-52.775384 49.230769v748.307692c0 26.899692 23.355077 49.230769 52.775384 49.230769h360.999385z" p-id="17689"></path><path d="M196.923077 216.615385m29.538461 0l374.153847 0q29.538462 0 29.538461 29.538461l0 0q0 29.538462-29.538461 29.538462l-374.153847 0q-29.538462 0-29.538461-29.538462l0 0q0-29.538462 29.538461-29.538461Z" p-id="17690"></path><path d="M649.846154 846.769231a216.615385 216.615385 0 1 0 0-433.230769 216.615385 216.615385 0 0 0 0 433.230769z m0 59.076923a275.692308 275.692308 0 1 1 0-551.384616 275.692308 275.692308 0 0 1 0 551.384616z" p-id="17691"></path><path d="M807.398383 829.479768m20.886847-20.886846l0 0q20.886846-20.886846 41.773692 0l125.321079 125.321079q20.886846 20.886846 0 41.773693l0 0q-20.886846 20.886846-41.773693 0l-125.321078-125.321079q-20.886846-20.886846 0-41.773693Z" p-id="17692"></path></svg></span></div></div></div><div class="vrow"><div class="vcol vcol-30"><a alt="Markdown is supported" href="https://guides.github.com/features/mastering-markdown/" class="vicon" target="_blank"><svg class="markdown" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14.85 3H1.15C.52 3 0 3.52 0 4.15v7.69C0 12.48.52 13 1.15 13h13.69c.64 0 1.15-.52 1.15-1.15v-7.7C16 3.52 15.48 3 14.85 3zM9 11H7V8L5.5 9.92 4 8v3H2V5h2l1.5 2L7 5h2v6zm2.99.5L9.5 8H11V5h2v3h1.5l-2.51 3.5z"></path></svg></a></div><div class="vcol vcol-70 text-right"><button type="button" title="Cmd|Ctrl+Enter" class="vsubmit vbtn">提交</button></div></div><div class="vemojis" style="display:none;"></div><div class="vinput vpreview" style="display:none;"></div><div style="display:none;" class="vmark"></div></div></div><div class="vcount" style="display:none;"><span class="vnum">0</span> 评论</div><div class="vload-top text-center" style="display:none;"><i class="vspinner" style="width:30px;height:30px;"></i></div><div class="vcards"></div><div class="vload-bottom text-center" style="display:none;"><i class="vspinner" style="width:30px;height:30px;"></i></div><div class="vempty" style="display: block;">来发评论吧~</div><div class="vpage txt-center" style="display:none"><button type="button" class="vmore vbtn">加载更多...</button></div><div class="vpower txt-right">Powered By <a href="https://valine.js.org/" target="_blank">Valine</a><br>v1.4.14</div></div>
+  
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar" style="margin-top: 382px; margin-left: initial;">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner affix" style="opacity: 1; display: block; transform: initial;">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel" style="">
+        <div class="site-overview" style="max-height: 499px;">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="./SRGAN _ GitHub_files/github.jpeg" alt="USTCcoder" data-bd-imgshare-binded="1">
+            
+              <p class="site-author-name" itemprop="name">USTCcoder</p>
+              <p class="site-description motion-element" itemprop="description">身体和灵魂总有一个在路上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="https://ustccoder.github.io/archives/">
+              
+                  <span class="site-state-item-count">208</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="https://ustccoder.github.io/categories/index.html">
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="https://ustccoder.github.io/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/USTCcoder" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/u/5754061944" target="_blank" title="weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>weibo</a>
+                  </span>
+                
+            </div>
+          
+
+  <div id="music163player"> 
+    <div class="fluid-vids" style="position: relative; margin-bottom: 20px; width: 100%; padding-top: 17.4497%;"><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src="./SRGAN _ GitHub_files/player.html" style="width: 100%; height: 100%; position: absolute; top: 0px; left: 0px;"></iframe></div>
+  </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://baidu.com/" title="百度搜索" target="_blank">百度搜索</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.ustc.edu.cn/" title="中国科学技术大学" target="_blank">中国科学技术大学</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc" style="max-height: 499px;">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1 active active-current"><a class="nav-link" href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">背景介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#%E5%88%86%E8%BE%A8%E7%8E%87%E6%8F%90%E5%8D%87%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">分辨率提升的方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#SRGAN%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">SRGAN的特点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#SRGAN%E5%9B%BE%E5%83%8F%E5%88%86%E6%9E%90"><span class="nav-number">4.</span> <span class="nav-text">SRGAN图像分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#TensorFlow2-0%E5%AE%9E%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">TensorFlow2.0实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#%E6%A8%A1%E5%9E%8B%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">5.1.</span> <span class="nav-text">模型运行结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#%E5%B0%8F%E6%8A%80%E5%B7%A7"><span class="nav-number">5.2.</span> <span class="nav-text">小技巧</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#SRGAN%E5%B0%8F%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">SRGAN小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+
+      
+
+  </div></aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async="" src="./SRGAN _ GitHub_files/busuanzi.pure.mini.js.下载"></script>
+<div class="copyright">© <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-star"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">USTCcoder</span>
+
+  
+</div>
+
+<!--
+  <div class="powered-by">由USTCcoder强力驱动</div>
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+-->
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async="" src="./SRGAN _ GitHub_files/busuanzi.pure.mini.js(1).下载"></script>
+
+  
+    <span class="site-uv">
+      本站访客数<i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv">12253</span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量<i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv">17889</span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top back-to-top-on">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>3</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="./SRGAN _ GitHub_files/index.js.下载"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="./SRGAN _ GitHub_files/fastclick.min.js.下载"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="./SRGAN _ GitHub_files/jquery.lazyload.js.下载"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="./SRGAN _ GitHub_files/velocity.min.js.下载"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="./SRGAN _ GitHub_files/velocity.ui.min.js.下载"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="./SRGAN _ GitHub_files/jquery.fancybox.pack.js.下载"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="./SRGAN _ GitHub_files/canvas-nest.min.js.下载"></script><canvas id="c_n17" width="1280" height="612" style="position: fixed; top: 0px; left: 0px; z-index: -1; opacity: 0.5;"></canvas>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="./SRGAN _ GitHub_files/utils.js.下载"></script>
+
+  <script type="text/javascript" src="./SRGAN _ GitHub_files/motion.js.下载"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="./SRGAN _ GitHub_files/affix.js.下载"></script>
+
+  <script type="text/javascript" src="./SRGAN _ GitHub_files/pisces.js.下载"></script>
+
+
+
+  
+  <script type="text/javascript" src="./SRGAN _ GitHub_files/scrollspy.js.下载"></script>
+<script type="text/javascript" src="./SRGAN _ GitHub_files/post-details.js.下载"></script>
+
+
+
+  
+
+
+
+
+  <script type="text/javascript" src="./SRGAN _ GitHub_files/bootstrap.js.下载"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="./SRGAN _ GitHub_files/av-min.js.下载"></script>
+  <script src="./SRGAN _ GitHub_files/Valine.min.js.下载"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 't9SI7AusOApNt2xEqzwPKdgu-gzGzoHsz',
+        appKey: 'HL9HMS3c39n0mcXn11GkeE0S',
+        placeholder: '给主人一点鼓励吧( ⊙ o ⊙ )',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+  <script type="text/javascript">
+  wpac_init = window.wpac_init || [];
+  wpac_init.push({widget: 'Rating', id: ,
+    el: 'wpac-rating',
+    color: 'fc79533'
+  });
+  (function() {
+    if ('WIDGETPACK_LOADED' in window) return;
+    WIDGETPACK_LOADED = true;
+    var mc = document.createElement('script');
+    mc.type = 'text/javascript';
+    mc.async = true;
+    mc.src = '//embed.widgetpack.com/widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+  })();
+  </script>
+
+
+  
+  
+    <script type="text/x-mathjax-config;executed=true">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config;executed=true">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="./SRGAN _ GitHub_files/MathJax.js.下载"></script>
+  
+
+
+  
+
+  
+
+  <script src="./SRGAN _ GitHub_files/L2Dwidget.min.js.下载"></script><script>L2Dwidget.init({"tagMode":true,"debug":false,"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":140,"height":260,"mobile":true,"show":true},"log":false});</script>
+
+<!-- 动态可交互背景（js引入）
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+ <script>
+ $("body").backstretch("/images/github_logo.jpeg");
+  </script>
+-->
+
+
+<!-- 页面点击小红心 
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
+-->
+<div id="live2d-widget" class="live2d-widget-container" style="position: fixed; right: 0px; bottom: -20px; width: 140px; height: 260px; z-index: 99999; opacity: 1; pointer-events: none;"><canvas id="live2dcanvas" width="280" height="520" style="position: absolute; left: 0px; top: 0px; width: 140px; height: 260px;"></canvas></div><div class="bdshare-slide-button-box bdshare-slide-style-l5" style="top: 100px; width: 0px; z-index: 99999; left: 0px;" data-bd-bind="1605232934023"><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#" onclick="return false;" class="bdshare-slide-button" style="right: -24px;"></a><div class="bdshare-slide-list-box" style="width: 0px; display: none;"><div class="bdshare-slide-top">分享到</div><div class="bdshare-slide-list"><ul class="bdshare-slide-list-ul" style="width: 116px;"></ul></div><div class="bdshare-slide-bottom" style="width: 116px;"><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#" onclick="return false;" class="slide-more" data-cmd="more">更多...</a></div></div></div><div id="bdimgshare_1605232934025" class="sr-bdimgshare sr-bdimgshare-list sr-bdimgshare-16 sr-bdimgshare-black" style="height: 36px; line-height: 26px; font-size: 12px; position: absolute; top: 577px; left: 493.5px; width: 548px; display: none;" data-bd-bind="1605232934025"><div class="bdimgshare-bg"></div><div class="bdimgshare-content bdsharebuttonbox bdshare-button-style0-16"><label class="bdimgshare-lbl">分享到：</label><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#" onclick="return false;" class="bds_tsina" data-cmd="tsina" hidefocus=""></a><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#" onclick="return false;" class="bds_douban" data-cmd="douban" hidefocus=""></a><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#" onclick="return false;" class="bds_sqq" data-cmd="sqq" hidefocus=""></a><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#" onclick="return false;" class="bds_qzone" data-cmd="qzone" hidefocus=""></a><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#" onclick="return false;" class="bds_weixin" data-cmd="weixin" hidefocus=""></a><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#" onclick="return false;" class="bds_twi" data-cmd="twi" hidefocus=""></a><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#" onclick="return false;" class="bds_fbook" data-cmd="fbook" hidefocus=""></a><a href="https://ustccoder.github.io/2020/06/09/generative_adversarial%20SRGAN/#" onclick="return false;" class="bds_more" data-cmd="more" hidefocus=""></a></div></div></body></html>
